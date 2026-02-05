@@ -1,0 +1,336 @@
+{
+  "datasets": [
+    {
+      "name": "2d235a8b",
+      "displayName": "silver-earthquake-event",
+      "queryLines": [
+        "select * from lakehouse.`03_silver`.earthquake_events"
+      ],
+      "catalog": "lakehouse",
+      "schema": "03_silver"
+    },
+    {
+      "name": "577a80bb",
+      "displayName": "seismic_activity",
+      "queryLines": [
+        "SELECT * FROM lakehouse.`04_gold`.seismic_activity"
+      ]
+    },
+    {
+      "name": "fc20fbdd",
+      "displayName": "event_density-hotspot",
+      "queryLines": [
+        "SELECT * FROM lakehouse.`04_gold`.event_density"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "c1106fb6",
+      "displayName": "Untitled page",
+      "layout": [
+        {
+          "widget": {
+            "name": "0a3ac9bd",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "2d235a8b",
+                  "fields": [
+                    {
+                      "name": "daily(time)",
+                      "expression": "DATE_TRUNC(\"DAY\", `time`)"
+                    },
+                    {
+                      "name": "count(id)",
+                      "expression": "COUNT(`id`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "daily(time)",
+                  "scale": {
+                    "type": "temporal"
+                  }
+                },
+                "y": {
+                  "fieldName": "count(id)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "19775b52",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "fc20fbdd",
+                  "fields": [
+                    {
+                      "name": "event_density",
+                      "expression": "`event_density`"
+                    },
+                    {
+                      "name": "avg_lat",
+                      "expression": "`avg_lat`"
+                    },
+                    {
+                      "name": "avg_long",
+                      "expression": "`avg_long`"
+                    },
+                    {
+                      "name": "avg_mag",
+                      "expression": "`avg_mag`"
+                    },
+                    {
+                      "name": "max_mag",
+                      "expression": "`max_mag`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "mark": {
+                "size": 0.9
+              },
+              "widgetType": "symbol-map",
+              "encodings": {
+                "coordinates": {
+                  "latitude": {
+                    "fieldName": "avg_lat"
+                  },
+                  "longitude": {
+                    "fieldName": "avg_long"
+                  }
+                },
+                "color": {
+                  "fieldName": "event_density",
+                  "scale": {
+                    "type": "quantitative",
+                    "colorRamp": {
+                      "mode": "scheme",
+                      "scheme": "magma"
+                    }
+                  }
+                },
+                "size": {
+                  "fieldName": "event_density",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "extra": [
+                  {
+                    "fieldName": "avg_lat"
+                  },
+                  {
+                    "fieldName": "avg_long"
+                  },
+                  {
+                    "fieldName": "avg_mag"
+                  },
+                  {
+                    "fieldName": "max_mag"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 7,
+            "width": 6,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "d03897c6",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "577a80bb",
+                  "fields": [
+                    {
+                      "name": "count(*)",
+                      "expression": "COUNT(`*`)"
+                    },
+                    {
+                      "name": "net",
+                      "expression": "`net`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "count(*)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "net",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 15,
+            "width": 6,
+            "height": 9
+          }
+        },
+        {
+          "widget": {
+            "name": "c7ca0c87",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "2d235a8b",
+                  "fields": [
+                    {
+                      "name": "mag",
+                      "expression": "`mag`"
+                    },
+                    {
+                      "name": "latitude",
+                      "expression": "`latitude`"
+                    },
+                    {
+                      "name": "longitude",
+                      "expression": "`longitude`"
+                    },
+                    {
+                      "name": "place",
+                      "expression": "`place`"
+                    },
+                    {
+                      "name": "time",
+                      "expression": "`time`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "mark": {
+                "size": -1.5
+              },
+              "widgetType": "symbol-map",
+              "encodings": {
+                "coordinates": {
+                  "latitude": {
+                    "fieldName": "latitude"
+                  },
+                  "longitude": {
+                    "fieldName": "longitude"
+                  }
+                },
+                "color": {
+                  "fieldName": "mag",
+                  "scale": {
+                    "type": "quantitative",
+                    "colorRamp": {
+                      "mode": "scheme",
+                      "scheme": "orangered"
+                    }
+                  }
+                },
+                "size": {
+                  "fieldName": "mag",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "extra": [
+                  {
+                    "fieldName": "place"
+                  },
+                  {
+                    "fieldName": "time"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 24,
+            "width": 6,
+            "height": 9
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS"
+    },
+    {
+      "name": "af324033",
+      "displayName": "Global Filters",
+      "layout": [
+        {
+          "widget": {
+            "name": "fcf1807e",
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-single-select",
+              "encodings": {},
+              "frame": {
+                "showTitle": true
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 2
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_GLOBAL_FILTERS"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}
